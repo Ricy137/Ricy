@@ -1,3 +1,5 @@
+import { Vector } from '@/utils/vector';
+
 export interface Point {
   x: number;
   y: number;
@@ -43,4 +45,9 @@ export function drawLine(
   }
 }
 
-export * from './branch';
+export function inbound([x, y]: Vector, width = 400, height = 400) {
+  return x >= 0 && x < width && y >= 0 && y < height;
+}
+
+export * from './tree';
+export * from './ice';

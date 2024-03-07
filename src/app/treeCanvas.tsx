@@ -13,7 +13,7 @@ export const TreeCanvas: React.FC = () => {
       length: 60,
       theta: -Math.PI / 2,
     };
-    drawTreeAnimation(ctx, rootBranch, 200);
+    drawTreeAnimation(ctx, rootBranch, 70);
   }, []);
 
   return (
