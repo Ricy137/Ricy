@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import Canvas from '@/components/Canvas';
 import { drawTreeAnimation } from '@/utils/canvas';
 
-export const GeneraCanvas: React.FC = () => {
+export const TreeCanvas: React.FC = () => {
   const draw = useCallback((ctx: CanvasRenderingContext2D) => {
     ctx.strokeStyle = '#808080';
     const WIDTH = ctx.canvas.width;
@@ -13,17 +13,17 @@ export const GeneraCanvas: React.FC = () => {
       length: 60,
       theta: -Math.PI / 2,
     };
-    drawTreeAnimation(ctx, rootBranch, 20);
+    drawTreeAnimation(ctx, rootBranch, 200);
   }, []);
 
   return (
     <Canvas
       draw={draw}
-      className="absolute w-full h-screen"
-      width={1440}
-      height={900}
+      className="absolute w-[300px] h-[400px] border-2 border-gray-800"
+      width={1024}
+      height={720}
     />
   );
 };
 
-export default GeneraCanvas;
+export default TreeCanvas;
