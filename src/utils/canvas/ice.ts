@@ -110,7 +110,7 @@ export const drawIce = async (
     }
     updateCanvas();
 
-    //  if (tick >= maxTicks) return;
+    if (tick >= maxTicks) throw new Error('done');
   };
 
   const start = () => {
@@ -130,13 +130,16 @@ export const drawIce = async (
     ];
     let frameCount = 0;
     const startFrame = () => {
-      frameCount++;
-      requestAnimationFrame(() => {
-        if (!(frameCount % 1)) {
+      try {
+        frameCount++;
+        requestAnimationFrame(() => {
+          //   if (!(frameCount % 1)) {
+          //     frame();
+          //   }
           frame();
-        }
-        startFrame();
-      });
+          startFrame();
+        });
+      } catch (e) {}
     };
     startFrame();
   };
