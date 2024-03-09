@@ -25,7 +25,7 @@ const randomVectors = (n: number): Vector[] => {
 };
 
 //TODO: break this function into smaller functions
-export const drawIce = async (
+export const drawIce = (
   ctx: CanvasRenderingContext2D,
   width = 400,
   height = 400
@@ -36,7 +36,6 @@ export const drawIce = async (
     .map((_, i) => i)
     .map((i) => new Array(height).fill(0));
   function updateCanvas() {
-    // update the canvas with the rustness
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
         const iceNode = iceNodes[x][y];
