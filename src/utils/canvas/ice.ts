@@ -1,7 +1,7 @@
 import { sampleSize } from 'lodash-es';
 import { inbound } from '@/utils/canvas';
 import { hexToRgb, colorInterpration } from '@/utils/colors';
-import { Vector } from '@/utils/vector';
+import { Vector, randomVectors } from '@/utils/vector';
 import { randomWithRange } from '@/utils/random';
 
 let tick = 0;
@@ -19,13 +19,6 @@ const pattele = [
   '#00b4d8',
   '#0096c7',
 ].map(hexToRgb);
-
-const randomVectors = (n: number): Vector[] => {
-  return Array.from({ length: n }, () => [
-    Math.trunc(randomWithRange(400)),
-    Math.trunc(randomWithRange(400)),
-  ]);
-};
 
 class Ice {
   constructor(public activePoints: Vector[], public iteractions = 5) {}
