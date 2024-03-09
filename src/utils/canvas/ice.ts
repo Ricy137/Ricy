@@ -4,6 +4,12 @@ import { hexToRgb, colorInterpration } from '@/utils/colors';
 import { Vector } from '@/utils/vector';
 import { randomWithRange } from '@/utils/random';
 
+let tick = 0;
+let iceNodes: number[][] = [];
+let iceField: Ice[] = [];
+
+const maxTicks = 5000;
+const iterations = 3;
 const pattele = [
   '#ffffff',
   '#caf0f8',
@@ -13,9 +19,6 @@ const pattele = [
   '#00b4d8',
   '#0096c7',
 ].map(hexToRgb);
-let tick = 0;
-const maxTicks = 5000;
-const iterations = 3;
 
 const randomVectors = (n: number): Vector[] => {
   return Array.from({ length: n }, () => [
@@ -24,6 +27,48 @@ const randomVectors = (n: number): Vector[] => {
   ]);
 };
 
+class Ice {
+  constructor(public activePoints: Vector[], public iteractions = 5) {}
+  next() {
+    if (!this.iteractions) return;
+    this.iteractions -= 1;
+
+    const newPoints: Vector[] = [];
+
+    this.activePoints.forEach((point) => {
+      const [x, y] = point;
+
+      iceNodes[x][y] += randomWithRange(0.1, 0);
+
+      const points: Vector[] = [
+        [x, y],
+        [x, y + 1],
+        [x + 1, y],
+        [x, y - 1],
+        [x - 1, y],
+        [x + 1, y + 1],
+        [x + 1, y - 1],
+        [x - 1, y + 1],
+        [x - 1, y - 1],
+      ];
+
+      newPoints.push(
+        ...points
+          .filter((v) => !newPoints.some((n) => n[0] === v[0] && n[1] === v[1]))
+          .filter((v) => inbound(v)) // within the canvas
+          .filter(([x, y]) => {
+            if (iceNodes[x][y] === 0) return true;
+            if (iceNodes[x][y] >= 1) return false;
+            if (iceNodes[x][y] > 0.8) return randomWithRange() > 0.5;
+            else return randomWithRange() > 0.2;
+          })
+      );
+    });
+
+    this.activePoints = sampleSize(newPoints, 200);
+  }
+}
+
 //TODO: break this function into smaller functions
 export const drawIce = (
   ctx: CanvasRenderingContext2D,
@@ -31,7 +76,7 @@ export const drawIce = (
   height = 400
 ) => {
   const data = ctx.createImageData(width, height);
-  const iceNodes = new Array(width)
+  iceNodes = new Array(width)
     .fill(0)
     .map((_, i) => i)
     .map((i) => new Array(height).fill(0));
@@ -52,51 +97,6 @@ export const drawIce = (
     ctx.putImageData(data, 0, 0);
   }
 
-  //TODO: move out Ice class
-  class Ice {
-    constructor(public activePoints: Vector[], public iteractions = 5) {}
-    next() {
-      if (!this.iteractions) return;
-      this.iteractions -= 1;
-
-      const newPoints: Vector[] = [];
-
-      this.activePoints.forEach((point) => {
-        const [x, y] = point;
-
-        iceNodes[x][y] += randomWithRange(0.1, 0);
-
-        const points: Vector[] = [
-          [x, y],
-          [x, y + 1],
-          [x + 1, y],
-          [x, y - 1],
-          [x - 1, y],
-          [x + 1, y + 1],
-          [x + 1, y - 1],
-          [x - 1, y + 1],
-          [x - 1, y - 1],
-        ];
-
-        newPoints.push(
-          ...points
-            .filter(
-              (v) => !newPoints.some((n) => n[0] === v[0] && n[1] === v[1])
-            )
-            .filter((v) => inbound(v)) // within the canvas
-            .filter(([x, y]) => {
-              if (iceNodes[x][y] === 0) return true;
-              if (iceNodes[x][y] >= 1) return false;
-              if (iceNodes[x][y] > 0.8) return randomWithRange() > 0.5;
-              else return randomWithRange() > 0.2;
-            })
-        );
-      });
-
-      this.activePoints = sampleSize(newPoints, 200);
-    }
-  }
-  let iceField: Ice[] = [];
   const frame = () => {
     tick++;
     for (let i = 0; i < iterations; i++) {
