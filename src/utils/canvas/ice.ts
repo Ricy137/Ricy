@@ -114,7 +114,6 @@ export const drawIce = async (
   };
 
   const start = () => {
-    tick = 0;
     iceField = [
       new Ice(
         [
