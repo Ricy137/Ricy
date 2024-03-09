@@ -48,7 +48,7 @@ class Ice {
       newPoints.push(
         ...points
           .filter((v) => !newPoints.some((n) => n[0] === v[0] && n[1] === v[1]))
-          .filter((v) => inbound(v)) // within the canvas
+          .filter((v) => inbound(v))
           .filter(([x, y]) => {
             if (iceNodes[x][y] === 0) return true;
             if (iceNodes[x][y] >= 1) return false;
