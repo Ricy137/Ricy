@@ -1,9 +1,11 @@
 import IceCanvas from './iceCanvas';
 
-export default function Home() {
+const IcePage: React.FC = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex flex-col items-center justify-center min-h-screen">
       <IceCanvas />
     </main>
   );
-}
+};
+
+export default IcePage;

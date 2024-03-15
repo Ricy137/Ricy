@@ -19,7 +19,7 @@ export const TreeCanvas: React.FC = () => {
   return (
     <Canvas
       draw={draw}
-      className="absolute w-[300px] h-[400px] border-2 border-gray-800"
+      className="absolute w-[400px] h-[400px] border-2 border-gray-800"
       width={1024}
       height={720}
     />
