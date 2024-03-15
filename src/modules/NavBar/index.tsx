@@ -6,7 +6,6 @@ import { LeftArrowIcon } from '@/components/Icons';
 
 const NavBar: React.FC = () => {
   const pathname = usePathname();
-  console.log(pathname, pathname === '/');
 
   return (
     <div
